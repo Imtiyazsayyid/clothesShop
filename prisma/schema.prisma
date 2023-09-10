@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Tshirts {
+  tshirt_id   Int @id @default(autoincrement())
+  tshirt_title String @db.VarChar(255)
+  tshirt_brand_id Int 
+  tshirt_image String?
+  tshirt_brand Brand? @relation(fields: [tshirt_brand_id], references: [brand_id])
+  tshirt_color String? @db.VarChar(45)
+  tshirt_price Float  
+  tshirt_stock Int 
+}
+
+model Brand {
+  brand_id   Int @id @default(autoincrement())
+  brand_title String @db.VarChar(255)
+
+  Tshirts Tshirts[]
+}
